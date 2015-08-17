@@ -1,0 +1,14 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+%:
+	dh $@
+
+override_dh_install:
+	$(MAKE) DESTDIR=$(CURDIR)/debian/unoconv install install-links
+	mv $(CURDIR)/debian/unoconv/usr/bin/odt2txt $(CURDIR)/debian/unoconv/usr/bin/odt2txt.unoconv
+	# Add link to manual pages
+	find debian/unoconv/usr/bin -name '*2*' | \
+	  while read f; do \
+	    dh_link usr/share/man/man1/unoconv.1 usr/share/man/man1/"`echo "$$f" | sed -e s#debian/unoconv/usr/bin/##`".1; \
+	  done

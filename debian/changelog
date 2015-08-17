@@ -1,0 +1,168 @@
+unoconv (0.7-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Set TZ=UTC in asciidoc to make the embedded dates invariant to timezones
+    in order to make the package build reproducibly. Closes: #795975.
+
+ -- Eduard Sanou <dhole@openmailbox.org>  Mon, 17 Aug 2015 12:22:05 +0200
+
+unoconv (0.7-1) unstable; urgency=medium
+
+  * New upstream release.
+     + New --preserve option can preserve timestamps. Closes: #481622.
+     + "fodt" and "docx" text format are now supported. Closes: #659886.
+  * Drop patches applied upstream:
+     + python3-support.patch
+     + python3-stdout-fix.patch
+     + dont-show-changes.patch
+     + spelling-errors-unoconv-manual.patch
+     + support-for-wps.patch
+     + support-for-xlsx.patch
+  * Add a patch to ensure use of python3 interpreter.
+     + 0001-Use-python3-interpreter.patch
+  * Bump Standards-Version.
+
+ -- Vincent Bernat <bernat@debian.org>  Tue, 11 Aug 2015 15:34:33 +0200
+
+unoconv (0.6-6) unstable; urgency=low
+
+  * Add support for Microsoft Works and Microsoft Excel 2007 XML.
+    Closes: #734434.
+
+ -- Vincent Bernat <bernat@debian.org>  Sat, 11 Jan 2014 20:01:58 +0100
+
+unoconv (0.6-5) unstable; urgency=low
+
+  * Fix use of `--stdout` with Python3. Closes: #718481.
+
+ -- Vincent Bernat <bernat@debian.org>  Sun, 29 Dec 2013 17:58:05 +0100
+
+unoconv (0.6-4) unstable; urgency=low
+
+  * Drop no-asciidoc-for-selinux.patch. Not needed anymore. Closes: #732351.
+  * Patch for spelling errors in the manual page. Thanks to Olly Betts for
+    the patch and to Paul Wise to report it. Closes: #732352.
+  * Bump Standards-Version.
+
+ -- Vincent Bernat <bernat@debian.org>  Sat, 21 Dec 2013 17:21:23 +0100
+
+unoconv (0.6-3) unstable; urgency=low
+
+  * Depends on python3-uno (>= 4.0) to ensure to have the version
+    supporting Python 3.3. Closes: #717485.
+
+ -- Vincent Bernat <bernat@debian.org>  Sun, 21 Jul 2013 12:59:47 +0200
+
+unoconv (0.6-2) unstable; urgency=low
+
+  * Patch to avoid to show changes. Should closes: #624295.
+  * Patch for Python 3 support. Closes: #707337.
+  * Depends on python3-uno.
+
+ -- Vincent Bernat <bernat@debian.org>  Sat, 20 Jul 2013 12:17:45 +0200
+
+unoconv (0.6-1) unstable; urgency=low
+
+  * New upstream version. Closes: #700893.
+  * Don't recommend the whole LibreOffice suite, only core
+    components. Closes: #710799.
+  * Bump Standards-Version to 3.9.4.
+  * Update Vcs-* fields.
+  * Update debian/watch.
+  * Drop doc-base integration: we only install the manual page.
+  * Add a Lintian override for Conflicts with older versions of
+    odt2txt. It is legit.
+
+ -- Vincent Bernat <bernat@debian.org>  Sun, 02 Jun 2013 16:32:40 +0200
+
+unoconv (0.5-1) unstable; urgency=low
+
+  * New upstream version. Closes: #670574.
+     + Typo in manual page fixed. Closes: #594648.
+     + Don't use deprecated command line switches with Libre
+       Office. Closes: #640771
+  * Update debian/watch to use GitHub.
+  * Bump Standards-Version to 3.9.3.
+  * Do not build selinux.html: selinux.txt is not a valid asciidoc file.
+  * Fix spelling error in unoconv.1.
+  * Register documentation with doc-base.
+
+ -- Vincent Bernat <bernat@debian.org>  Sat, 28 Apr 2012 09:51:22 +0200
+
+unoconv (0.4-3) unstable; urgency=low
+
+  * Move libreoffice from Suggests to Recommends since libreoffice-core
+    does not depend on most important modules any more. Closes: #641806.
+  * Bump Standards-Version to 3.9.2.
+
+ -- Vincent Bernat <bernat@debian.org>  Sun, 25 Sep 2011 09:35:06 +0200
+
+unoconv (0.4-2) unstable; urgency=low
+
+  * Add a README.Debian file to notice that unoconv will only be able to
+    convert some formats only if the appropriate LibreOffice package is
+    installed. Closes: #491456.
+
+ -- Vincent Bernat <bernat@debian.org>  Sat, 05 Mar 2011 12:34:48 +0100
+
+unoconv (0.4-1) unstable; urgency=low
+
+  * New upstream version.
+      + Drop patch to support Impress templates which is included upstream.
+      + Fix manpage with invalid option. Closes: #569160.
+  * Switch to 3.0 (quilt) format.
+  * Bump Standards-Version to 3.9.1.
+  * Depends on LibreOffice packages instead of OpenOffice.org ones.
+  * Switch to debhelper 7.
+
+ -- Vincent Bernat <bernat@debian.org>  Sat, 05 Mar 2011 12:28:32 +0100
+
+unoconv (0.3-6) unstable; urgency=low
+
+  * Recommends openoffice.org-headless or openoffice.org-core (>= 1:3)
+    since it is already headless capable.
+  * Also recommends openoffice.org-java-common. This should closes: #501440.
+  * Bump Standards-Version to 3.8.3. No change required.
+
+ -- Vincent Bernat <bernat@debian.org>  Tue, 27 Oct 2009 20:00:19 +0100
+
+unoconv (0.3-5) unstable; urgency=low
+
+  * Recommends openoffice.org-headless instead of openoffice.org.
+  * Suggests openoffice.org.
+
+ -- Vincent Bernat <bernat@debian.org>  Wed, 19 Nov 2008 19:51:40 +0100
+
+unoconv (0.3-4) unstable; urgency=low
+
+  * Recommends openoffice.org. Without openoffice.org-writer, unoconv
+    cannot convert a text document for example. This leads to bugs similar
+    to #491456 (but there seems to be other reasons for such bug).
+  * Update to new Standards-Version. No changes required.
+  * In debian/control:
+     + add Vcs-* fields
+     + remove DM-Upload-Allowed field
+  * Convert debian/copyright to machine readable format
+
+ -- Vincent Bernat <bernat@debian.org>  Sun, 17 Aug 2008 13:01:43 +0200
+
+unoconv (0.3-3) unstable; urgency=low
+
+  * Add support for Impress templates, thanks to Sune Vuorela (Closes:
+    #456654).
+
+ -- Vincent Bernat <bernat@luffy.cx>  Mon, 17 Dec 2007 22:27:11 +0100
+
+unoconv (0.3-2) unstable; urgency=low
+
+  * Use update-alternatives to provide odt2txt, thanks to Michal Politowsk
+    (Closes: #451586).
+
+ -- Vincent Bernat <bernat@luffy.cx>  Sat, 17 Nov 2007 11:38:42 +0100
+
+unoconv (0.3-1) unstable; urgency=low
+
+  * Initial release (Closes: #444885)
+
+ -- Vincent Bernat <bernat@luffy.cx>  Mon, 01 Oct 2007 20:14:53 +0200
+

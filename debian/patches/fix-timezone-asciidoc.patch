@@ -1,0 +1,26 @@
+Description: Fix timezone in asciidoc
+ Set TZ=UTC before calling asciidoc to make the embedded dates invariant
+ to timezone so that the package can be build reproducibly.
+Author: Eduard Sanou <dhole@openmailbox.org>
+
+diff --git a/doc/Makefile b/doc/Makefile
+index d3a487b3099f..9c5291939dd5 100644
+--- a/doc/Makefile
++++ b/doc/Makefile
+@@ -20,13 +20,13 @@ clean:
+ 	rm -f unconv.1 *.html *.xml
+ 
+ %.1.html: %.1.adoc
+-	asciidoc -d manpage $<
++	TZ=UTC asciidoc -d manpage $<
+ 
+ %.1: %.1.xml
+ 	xmlto man $<
+ 
+ %.html: %.adoc
+-	asciidoc $<
++	TZ=UTC asciidoc $<
+ 
+ %.1.xml: %.1.adoc
+-	asciidoc -b docbook -d manpage $<
++	TZ=UTC asciidoc -b docbook -d manpage $<

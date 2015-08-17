@@ -1,0 +1,24 @@
+From 47d30eefe3bd31b0610f9f0f531be9ff66d43e12 Mon Sep 17 00:00:00 2001
+From: Vincent Bernat <vincent@bernat.im>
+Date: Tue, 11 Aug 2015 15:31:15 +0200
+Subject: [PATCH] Use python3 interpreter.
+
+LibreOffice UNO binding are now only available with Python 3. Ensure we
+use the right interpreter.
+---
+ unoconv | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/unoconv b/unoconv
+index 2e56d3ce4ac2..c17fa00469eb 100755
+--- a/unoconv
++++ b/unoconv
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python3
+ 
+ ### This program is free software; you can redistribute it and/or modify
+ ### it under the terms of the GNU General Public License as published by
+-- 
+2.5.0
+

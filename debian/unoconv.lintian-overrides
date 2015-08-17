@@ -1,0 +1,2 @@
+unoconv: conflicts-with-version odt2txt (<= 0.3-1)
+unoconv: manpage-has-errors-from-man

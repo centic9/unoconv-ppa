@@ -1,0 +1,14 @@
+If you are unable to convert some documents, ensure first that you
+have installed the appropriate LibreOffice package. For example, if
+you want to convert a text document, you need libreoffice-writer. If
+you want to convert a spreadsheet, you need libreoffice-calc.
+
+On most installations, unoconv will pull "libreoffice" package that
+contains everything needed. However, this is only a suggestion and if
+you have configured your package system to not install suggestions,
+you need to install the appropriate modules by hand.
+
+If this still does not work, check that you are able to open the
+document using LibreOffice.
+
+ -- Vincent Bernat <bernat@debian.org>, Sat,  5 Mar 2011 12:37:43 +0100
