@@ -1,2 +1,3 @@
 0001-Use-python3-interpreter.patch
 fix-timezone-asciidoc.patch
+0003-change-default-updateDocMode-behavior-and-add-new-op.patch

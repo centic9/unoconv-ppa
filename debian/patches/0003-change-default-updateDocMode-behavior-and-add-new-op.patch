@@ -1,0 +1,109 @@
+From: Vincent Bernat <vincent@bernat.ch>
+Date: Sat, 26 Oct 2019 17:18:04 +0200
+Subject: change default updateDocMode behavior and add new option to keep old
+ behavior
+
+---
+ unoconv | 47 +++++++++++++++++++++++++++--------------------
+ 1 file changed, 27 insertions(+), 20 deletions(-)
+
+diff --git unoconv unoconv
+index c17fa00..1aebf6b 100755
+--- a/unoconv
++++ b/unoconv
+@@ -530,6 +530,7 @@ class Options:
+         self.template = None
+         self.timeout = 6
+         self.verbose = 0
++        self.updateDocMode = NO_UPDATE
+ 
+         ### Get options from the commandline
+         try:
+@@ -538,7 +539,7 @@ class Options:
+                  'help', 'import=', 'listener', 'no-launch', 'output=',
+                  'outputpath', 'password=', 'pipe=', 'port=', 'preserve',
+                  'server=', 'timeout=', 'show', 'stdin', 'stdout', 'template',
+-                 'verbose', 'version'] )
++                 'unsafe-quiet-update', 'verbose', 'version'] )
+         except getopt.error as exc:
+             print('unoconv: %s, try unoconv -h for a list of all the options' % str(exc))
+             sys.exit(255)
+@@ -623,6 +624,10 @@ class Options:
+                 self.template = arg
+             elif opt in ['-T', '--timeout']:
+                 self.timeout = int(arg)
++            elif opt in ['--unsafe-quiet-update']:
++                # ref https://www.openoffice.org/api/docs/common/ref/com/sun/star/document/UpdateDocMode.html
++                print('Warning: Do not use the option --unsafe-quiet-update with untrusted input.')
++                self.updateDocMode = QUIET_UPDATE
+             elif opt in ['-v', '--verbose']:
+                 self.verbose = self.verbose + 1
+             elif opt in ['-V', '--version']:
+@@ -720,6 +725,7 @@ unoconv options:
+       --stdout             write output to stdout
+   -t, --template=file      import the styles from template (.ott)
+   -T, --timeout=secs       timeout after secs if connection to listener fails
++      --unsafe-quiet-update allow rendered document to fetch external resources (Warning: this is unsafe with untrusted input)
+   -v, --verbose            be more and more verbose (-vvv for debugging)
+       --version            display version number of unoconv, OOo/LO and platform details
+ ''', file=sys.stderr)
+@@ -872,7 +878,7 @@ class Convertor:
+             phase = "import"
+ 
+             ### Load inputfile
+-            inputprops = UnoProps(Hidden=True, ReadOnly=True, UpdateDocMode=QUIET_UPDATE)
++            inputprops = UnoProps(Hidden=True, ReadOnly=True, UpdateDocMode=op.updateDocMode)
+ 
+ #            if op.password:
+ #                info = UnoProps(algorithm-name="PBKDF2", salt="salt", iteration-count=1024, hash="hash")
+@@ -922,23 +928,24 @@ class Convertor:
+ #            except AttributeError:
+ #                pass
+ 
+-            ### Update document links
+-            phase = "update-links"
+-            try:
+-                document.updateLinks()
+-                # Found that when converting HTML files with external images, OO would only load five or six of 
+-                # the images in the file. In the resulting document, the rest of the images did not appear. Cycling 
+-                # through all the image references in the document seems to force OO to actually load them. Found 
+-                # some helpful guidance in this thread:
+-                # https://forum.openoffice.org/en/forum/viewtopic.php?f=30&t=23909
+-                # Ideally we would like to have the option to embed the images into the document, but I have not been
+-                # able to figure out how to do this yet.
+-                graphObjs = document.GraphicObjects
+-                for i in range(0, graphObjs.getCount()):
+-                    graphObj = graphObjs.getByIndex(i)
+-            except AttributeError:
+-                # the document doesn't implement the XLinkUpdate interface
+-                pass
++            ### Update document links if appropriate
++            if op.updateDocMode != NO_UPDATE:
++                phase = "update-links"
++                try:
++                    document.updateLinks()
++                    # Found that when converting HTML files with external images, OO would only load five or six of 
++                    # the images in the file. In the resulting document, the rest of the images did not appear. Cycling 
++                    # through all the image references in the document seems to force OO to actually load them. Found 
++                    # some helpful guidance in this thread:
++                    # https://forum.openoffice.org/en/forum/viewtopic.php?f=30&t=23909
++                    # Ideally we would like to have the option to embed the images into the document, but I have not been
++                    # able to figure out how to do this yet.
++                    graphObjs = document.GraphicObjects
++                    for i in range(0, graphObjs.getCount()):
++                        graphObj = graphObjs.getByIndex(i)
++                except AttributeError:
++                    # the document doesn't implement the XLinkUpdate interface
++                    pass
+ 
+             ### Replace variables
+             phase = "replace-fields"
+@@ -1233,7 +1240,7 @@ if __name__ == '__main__':
+     ### Now that we have found a working pyuno library, let's import some classes
+     from com.sun.star.beans import PropertyValue
+     from com.sun.star.connection import NoConnectException
+-    from com.sun.star.document.UpdateDocMode import QUIET_UPDATE
++    from com.sun.star.document.UpdateDocMode import NO_UPDATE, QUIET_UPDATE
+     from com.sun.star.lang import DisposedException, IllegalArgumentException
+     from com.sun.star.io import IOException, XOutputStream
+     from com.sun.star.script import CannotConvertException
