@@ -1,3 +1,4 @@
 0001-Use-python3-interpreter.patch
 fix-timezone-asciidoc.patch
 0003-change-default-updateDocMode-behavior-and-add-new-op.patch
+0004-prevent-failure-with-running-libreoffice.patch

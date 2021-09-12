@@ -1,3 +1,9 @@
+unoconv (0.7-2ubuntu0~ppa1) focal; urgency=medium
+
+  * Try to fix problem with connecting by retrying on exit-code 0.
+
+ -- Dominik Stadler (Ubuntu key) <dominik.stadler@gmx.at>  Sun, 12 Sep 2021 16:04:30 +0200
+
 unoconv (0.7-2) unstable; urgency=high
 
   * d/control: update Vcs-* fields.

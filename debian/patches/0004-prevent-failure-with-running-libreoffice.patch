@@ -1,0 +1,59 @@
+Index: git/unoconv
+===================================================================
+--- git.orig/unoconv	2021-09-12 16:08:51.017371424 +0200
++++ git/unoconv	2021-09-12 16:39:20.771346582 +0200
+@@ -762,6 +762,7 @@
+         global ooproc, product, office
+         unocontext = None
+ 
++        info(3, "Resolving with 'uno:%s'" % op.connection)
+         try:
+             unocontext = resolver.resolve("uno:%s" % op.connection)
+         except NoConnectException as e:
+@@ -776,12 +777,13 @@
+             try:
+                 product = self.svcmgr.createInstance("com.sun.star.configuration.ConfigurationProvider").createInstanceWithArguments("com.sun.star.configuration.ConfigurationAccess", UnoProps(nodepath="/org.openoffice.Setup/Product"))
+                 if product.ooName not in ('LibreOffice', 'LOdev') or LooseVersion(product.ooSetupVersion) <= LooseVersion('3.3'):
+-                    ooproc = subprocess.Popen([office.binary, "-headless", "-invisible", "-nocrashreport", "-nodefault", "-nofirststartwizard", "-nologo", "-norestore", "-accept=%s" % op.connection], env=os.environ)
++                    ooproc = subprocess.Popen([office.binary, "-headless", "-invisible", "-nocrashreport", "-nodefault", "-nofirststartwizard", "-nologo", "-norestore", "-accept=%s" % op.connection], env=os.environ,stdout=subprocess.PIPE)
+                 else:
+-                    ooproc = subprocess.Popen([office.binary, "--headless", "--invisible", "--nocrashreport", "--nodefault", "--nofirststartwizard", "--nologo", "--norestore", "--accept=%s" % op.connection], env=os.environ)
++                    print("Running: ",office.binary, "--headless", "--invisible", "--nocrashreport", "--nodefault", "--nofirststartwizard", "--nologo", "--norestore", "--accept=%s" % op.connection)
++                    ooproc = subprocess.Popen([office.binary, "--headless", "--invisible", "--nocrashreport", "--nodefault", "--nofirststartwizard", "--nologo", "--norestore", "--accept=%s" % op.connection], env=os.environ,stdout=subprocess.PIPE)
+                 info(2, '%s listener successfully started. (pid=%s)' % (product.ooName, ooproc.pid))
+ 
+-                ### Try connection to it for op.timeout seconds (flakky OpenOffice)
++                ### Try connection to it for op.timeout seconds (flaky OpenOffice)
+                 timeout = 0
+                 while timeout <= op.timeout:
+                     ### Is it already/still running ?
+@@ -793,6 +795,20 @@
+ 
+                     elif retcode != None:
+                         info(3, "Process %s (pid=%s) exited with %s." % (office.binary, ooproc.pid, retcode))
++
++                        while True:
++                            output = ooproc.stdout.readline()
++                            if output:
++                                print ("Out: ",output.strip())
++                            else:
++                                print ("No output")
++                                break
++
++                        if retcode == 0:
++                            # Retry if the started listener exited too quickly, see https://github.com/unoconv/unoconv/commit/e4f65ed0d23c21e98ef55cbc69b74119bab26b44
++                            print("Retrying as ooprocess stopped immediately")
++                            return self.connect(resolver)
++
+                         break
+ 
+                     try:
+@@ -1138,7 +1154,7 @@
+         if convertor.desktop.getCurrentFrame():
+             info(2, 'Trying to stop %s GUI listener.' % product.ooName)
+             try:
+-                if product.ooName != "LibreOffice" or product.ooSetupVersion <= 3.3:
++                if product.ooName != "LibreOffice" or LooseVersion(product.ooSetupVersion) <= LooseVersion('3.3'):
+                     subprocess.Popen([office.binary, "-headless", "-invisible", "-nocrashreport", "-nodefault", "-nofirststartwizard", "-nologo", "-norestore", "-unaccept=%s" % op.connection], env=os.environ)
+                 else:
+                     subprocess.Popen([office.binary, "--headless", "--invisible", "--nocrashreport", "--nodefault", "--nofirststartwizard", "--nologo", "--norestore", "--unaccept=%s" % op.connection], env=os.environ)
