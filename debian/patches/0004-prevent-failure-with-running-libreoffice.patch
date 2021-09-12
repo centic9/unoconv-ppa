@@ -1,7 +1,7 @@
 Index: git/unoconv
 ===================================================================
---- git.orig/unoconv	2021-09-12 16:08:51.017371424 +0200
-+++ git/unoconv	2021-09-12 16:39:20.771346582 +0200
+--- git.orig/unoconv	2021-09-12 16:41:47.903642312 +0200
++++ git/unoconv	2021-09-12 16:41:55.723657924 +0200
 @@ -762,6 +762,7 @@
          global ooproc, product, office
          unocontext = None
@@ -41,7 +41,7 @@ Index: git/unoconv
 +                                break
 +
 +                        if retcode == 0:
-+                            # Retry if the started listener exited too quickly, see https://github.com/unoconv/unoconv/commit/e4f65ed0d23c21e98ef55cbc69b74119bab26b44
++                            # Retry if the started listener exited too quickly, see https://github.com/unoconv/unoconv/issues/470
 +                            print("Retrying as ooprocess stopped immediately")
 +                            return self.connect(resolver)
 +
