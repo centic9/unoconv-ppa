@@ -1,0 +1,31 @@
+#!/bin/bash
+#
+# autopkgtest check: verify that basic execution works
+#
+# Author: Dominik Stadler <dominik.stadler@gmx.at>
+
+set -e
+
+# ensure the binary can be executed
+unoconv --version
+echo "Basic execution: OK"
+
+# ensure the list of formats is available
+FORMATS=`unoconv --show 2>&1`
+
+# check for a few commonly used document formats
+for i in pdf docx odt xlsx csv jpg html
+do
+    if [[ ${FORMATS} == *"${i}"* ]]
+    then
+	echo "Format ${i} found in supported formats"
+    else
+	echo "${FORMATS}"
+
+	echo "Format-output does not contain expected text ${i}"
+
+	exit 1
+    fi
+done
+
+echo "Show formats: OK"

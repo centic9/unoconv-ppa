@@ -1,0 +1,87 @@
+#!/bin/bash
+#
+# autopkgtest check: verify that conversion to PDF leads to a valid PDF 
+# file which contains some expected text
+#
+# Author: Dominik Stadler <dominik.stadler@gmx.at>
+
+set -e
+
+pwd
+
+TESTFILE=tests/document-example.odt
+PDFFILE=tests/document-example.pdf
+TEXTFILE=tests/document-example.txt
+echo "Test-file: ${TESTFILE}"
+ls "${TESTFILE}"
+
+# check that the input-file exists
+if [ -f "${TESTFILE}" ]
+then
+    echo "Input-file exists: OK"
+else
+    ls
+    ls "${TESTFILE}"
+
+    echo "Input-file not found at ${TESTFILE}"
+    exit 1
+fi
+
+# perform conversion
+unoconv -vvv --timeout=60 --doctype=document --format pdf "--output=${PDFFILE}" "${TESTFILE}"
+echo "Convert: OK"
+
+# check that the output-file exists
+if [ -f "${PDFFILE}" ]
+then
+    echo "Output-file exists: OK"
+else
+    ls
+
+    echo "Output-file not found at ${PDFFILE}"
+    exit 1
+fi
+
+# check that file reports a "PDF document"
+OUT=`file "${PDFFILE}"`
+if [[ $OUT == *"PDF document"* ]]
+then
+    echo "File reports PDF document: OK"
+else
+    file "${PDFFILE}"
+
+    echo "Command 'file' does not report a PDF docuemnt for ${PDFFILE}"
+
+    exit 2
+fi
+
+# convert pdf to text to verify that it is valid
+pdftotext "${PDFFILE}"
+
+# chck that text-file exists
+if [ -f "${TEXTFILE}" ]
+then
+    echo "Text-file exists: OK"
+else
+    ls
+
+    echo "Text-file does not exist at ${TEXTFILE}"
+
+    exit 3
+fi
+
+# check that text-file contains expected text
+OUT=`cat "${TEXTFILE}"`
+if [[ $OUT == *"Curriculum Vitae"* ]]
+then
+    echo "Text found in ${TEXTFILE}"
+else
+    cat "${TEXTFILE}"
+
+    echo "Text-file ${TEXTFILE} does not contain expected text"
+
+    exit 4
+fi
+
+
+echo "run: OK"
