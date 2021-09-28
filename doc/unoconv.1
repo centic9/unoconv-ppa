@@ -1,13 +1,22 @@
 '\" t
 .\"     Title: unoconv
 .\"    Author: Dag Wieers <dag@wieers.com>
-.\" Generator: DocBook XSL Stylesheets v1.75.2 <http://docbook.sf.net/>
+.\" Generator: DocBook XSL Stylesheets v1.79.1 <http://docbook.sf.net/>
 .\"      Date: 20 october 2010
 .\"    Manual: \ \&
 .\"    Source: \ \& 0.4
 .\"  Language: English
 .\"
 .TH "UNOCONV" "1" "20 october 2010" "\ \& 0\&.4" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
 .\" -----------------------------------------------------------------
 .\" * set default formatting
 .\" -----------------------------------------------------------------
@@ -59,7 +68,7 @@ Specify the LibreOffice document type of the backend format\&. Possible document
 .RS 4
 .\}
 .nf
-Default document type is \'document\'\&.
+Default document type is \*(Aqdocument\*(Aq\&.
 .fi
 .if n \{\
 .RE
@@ -101,7 +110,7 @@ option\&.
 .RS 4
 .\}
 .nf
-Default document type is \'pdf\'\&.
+Default document type is \*(Aqpdf\*(Aq\&.
 .fi
 .if n \{\
 .RE
@@ -110,7 +119,7 @@ Default document type is \'pdf\'\&.
 .PP
 \-F, \-\-field
 .RS 4
-Replace user\-defined text field with value
+Add or replace user\-defined text field with value
 .sp
 .if n \{\
 .RS 4
@@ -138,9 +147,39 @@ See the *IMPORT FILTERS* section\&.
 .\}
 .RE
 .PP
+\-I, \-\-input\-filter\-name
+.RS 4
+Specify the input filter name, used when the file ending doesn\(cqt match the file type\&.
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+eg \-I odt
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
 \-l, \-\-listener
 .RS 4
 Start unoconv as listener for unoconv clients to connect to\&.
+.RE
+.PP
+\-M, \-\-meta
+.RS 4
+Add or replace document metadata with value
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+eg\&. \-M Author="Dag Wieers"
+.fi
+.if n \{\
+.RE
+.\}
 .RE
 .PP
 \-n, \-\-no\-launch
@@ -171,7 +210,7 @@ Port to listen on (as listener) or to connect to (as client)\&.
 .RS 4
 .\}
 .nf
-Default port is \'2002\'\&.
+Default port is \*(Aq2002\*(Aq\&.
 .fi
 .if n \{\
 .RE
@@ -191,7 +230,7 @@ Server (address) to listen on (as listener) or to connect to (as client)\&.
 .RS 4
 .\}
 .nf
-Default server is \'localhost\'\&.
+Default server is \*(Aqlocalhost\*(Aq\&.
 .fi
 .if n \{\
 .RE
@@ -1254,19 +1293,16 @@ unoconv is very useful together with the following tools:
 .PP
 Asciidoc
 .RS 4
-
 \m[blue]\fBhttp://www\&.methods\&.co\&.nz/asciidoc/\fR\m[]
 .RE
 .PP
 asciidoc\-odf
 .RS 4
-
 \m[blue]\fBhttp://github\&.com/dagwieers/asciidoc\-odf\fR\m[]
 .RE
 .PP
 docbook2odf
 .RS 4
-
 \m[blue]\fBhttp://open\&.comsultia\&.com/docbook2odf/\fR\m[]
 .RE
 .sp
@@ -1274,13 +1310,11 @@ A list of possible import and export formats is available from:
 .PP
 OpenOffice 2\&.1
 .RS 4
-
 \m[blue]\fBhttp://wiki\&.services\&.openoffice\&.org/wiki/Framework/Article/Filter/FilterList_OOo_2_1\fR\m[]
 .RE
 .PP
 OpenOffice 3\&.0
 .RS 4
-
 \m[blue]\fBhttp://wiki\&.services\&.openoffice\&.org/wiki/Framework/Article/Filter/FilterList_OOo_3_0\fR\m[]
 .RE
 .SH "AUTHOR"

@@ -1,3 +1,23 @@
+* 0.9.0 - released 2019-10-21
+- Much improved MacOS support
+- Better support for newer LibreOffice versions
+- Change default updateDocMode behavior and add new option to keep old behavior
+- Longer timeout for LibreOffice to start on slow systems
+- A fix in error()
+- Add support for Writer EPUB export
+
+* 0.8.2 - released 2017-12-07
+- Fixed PyPI upload
+
+* 0.8 - released 2017-12-07
+- Add option -M/--meta to add or update document metadata during conversion
+- Add option -I/--input-filter-name to specify input format (Martijn van de Streek)
+- Added setup.py to support standard Python installs, like pip, etc.
+- Dropped support for OpenOffice 3.3 and 3.4
+- Fix for Python 3 to read binary data from stdin (Carlos Noguera)
+- Fix for password protected files (Marijn Ophorst)
+- Make -F switch working for user-defined fields (Belegnar)
+
 * 0.7 - released 2015-07-09
 - Ported to Python 3 (Riccardo Magliocchetti)
 - Update Indexes (eg. TOC) during conversion (Peter Demin)
@@ -16,7 +36,6 @@
 - Accept remote URLs as input filename
 - Fix exit code 81 and recover from initial failure (Daniel Vandersluis)
 - Improve documentation related to error codes and using unoconv with Nginx/Apache/PHP
-
 
 * 0.6 - released 2012-09-10
 - Implement debugging output (-vvv)
