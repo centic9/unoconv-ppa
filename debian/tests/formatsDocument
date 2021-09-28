@@ -1,0 +1,23 @@
+#!/bin/bash
+#
+# autopkgtest check: verify that the different formats can be produced
+#
+# Author: Dominik Stadler <dominik.stadler@gmx.at>
+
+set -e
+
+TESTFILE=tests/document-example.odt
+echo "Test-file: ${TESTFILE}"
+ls "${TESTFILE}"
+
+# The following currently fail with some error message in LibreOffice: 
+# doc6 doc95 mediawiki sdw3 sdw4 sdw sxw
+
+for i in doc docbook fodt html ooxml pdf rtf text txt uot xhtml
+do
+    echo "Convert ${TESTFILE} to ${TESTFILE}.${i} for format ${i}"
+    unoconv -vvv --timeout=60 --doctype=document --format ${i} "--output=${TESTFILE}.${i}" "${TESTFILE}"
+    echo "Convert $i: OK"
+done
+
+echo "run: OK"

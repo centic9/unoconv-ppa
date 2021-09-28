@@ -1,0 +1,20 @@
+#!/bin/bash
+#
+# autopkgtest check: verify that the different formats can be produced
+#
+# Author: Dominik Stadler <dominik.stadler@gmx.at>
+
+set -e
+
+TESTFILE=tests/spreadsheet-example.csv
+echo "Test-file: ${TESTFILE}"
+ls "${TESTFILE}"
+
+for i in ods xlsx xls csv pdf
+do
+    echo "Convert ${TESTFILE} to ${TESTFILE}.${i} for format ${i}"
+    unoconv -vvv --timeout=60 --doctype=spreadsheet --format ${i} "--output=${TESTFILE}.${i}" "${TESTFILE}"
+    echo "Convert $i: OK"
+done
+
+echo "run: OK"
