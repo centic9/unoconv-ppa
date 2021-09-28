@@ -4,16 +4,15 @@ Tests: smoke
 # Verify converting to a number of different document-formats
 # the list is taken from tests/Makefile, but some do not work, maybe some dependencies are missing
 Tests: formatsDocument
-Depends: @, libreoffice-writer
+Depends: @, libreoffice-writer-nogui
 Restrictions: allow-stderr
 
 # Verify converting to a number of different spreadsheet-formats
 Tests: formatsSpreadsheet
-Depends: @, libreoffice-calc
+Depends: @, libreoffice-calc-nogui
 Restrictions: allow-stderr
 
 # Verify a converstion to PDF with checks on the resulting PDF file
 Tests: convertToPDF
-Depends: @, poppler-utils, coreutils, bash, libreoffice-writer
+Depends: @, poppler-utils, coreutils, bash, libreoffice-writer-nogui
 Restrictions: allow-stderr
-
