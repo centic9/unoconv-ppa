@@ -1,3 +1,12 @@
+unoconv (0.9.0-0ubuntu0~ppa1) focal; urgency=medium
+
+  * Update to version 0.9.0, Closes #900810
+  * Patch 0003-change-default-updateDocMode-behavior-and-add-new-op.patch
+    applied upstream, 
+  * Refresh 0004-prevent-failure-with-running-libreoffice.patch
+
+ -- Dominik Stadler (Ubuntu key) <dominik.stadler@gmx.at>  Tue, 28 Sep 2021 17:00:21 +0200
+
 unoconv (0.7-2ubuntu0~ppa4) focal; urgency=medium
 
   * Adjust watch-file for releases on github, See #900810

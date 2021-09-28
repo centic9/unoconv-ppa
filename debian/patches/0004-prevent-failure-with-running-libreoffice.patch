@@ -1,8 +1,8 @@
 Index: git/unoconv
 ===================================================================
---- git.orig/unoconv	2021-09-12 16:41:47.903642312 +0200
-+++ git/unoconv	2021-09-12 16:41:55.723657924 +0200
-@@ -762,6 +762,7 @@
+--- git.orig/unoconv	2021-09-28 17:06:37.559001448 +0200
++++ git/unoconv	2021-09-28 17:09:07.378878149 +0200
+@@ -844,6 +844,7 @@
          global ooproc, product, office
          unocontext = None
  
@@ -10,16 +10,12 @@ Index: git/unoconv
          try:
              unocontext = resolver.resolve("uno:%s" % op.connection)
          except NoConnectException as e:
-@@ -776,12 +777,13 @@
-             try:
-                 product = self.svcmgr.createInstance("com.sun.star.configuration.ConfigurationProvider").createInstanceWithArguments("com.sun.star.configuration.ConfigurationAccess", UnoProps(nodepath="/org.openoffice.Setup/Product"))
-                 if product.ooName not in ('LibreOffice', 'LOdev') or LooseVersion(product.ooSetupVersion) <= LooseVersion('3.3'):
--                    ooproc = subprocess.Popen([office.binary, "-headless", "-invisible", "-nocrashreport", "-nodefault", "-nofirststartwizard", "-nologo", "-norestore", "-accept=%s" % op.connection], env=os.environ)
-+                    ooproc = subprocess.Popen([office.binary, "-headless", "-invisible", "-nocrashreport", "-nodefault", "-nofirststartwizard", "-nologo", "-norestore", "-accept=%s" % op.connection], env=os.environ,stdout=subprocess.PIPE)
-                 else:
--                    ooproc = subprocess.Popen([office.binary, "--headless", "--invisible", "--nocrashreport", "--nodefault", "--nofirststartwizard", "--nologo", "--norestore", "--accept=%s" % op.connection], env=os.environ)
-+                    print("Running: ",office.binary, "--headless", "--invisible", "--nocrashreport", "--nodefault", "--nofirststartwizard", "--nologo", "--norestore", "--accept=%s" % op.connection)
-+                    ooproc = subprocess.Popen([office.binary, "--headless", "--invisible", "--nocrashreport", "--nodefault", "--nofirststartwizard", "--nologo", "--norestore", "--accept=%s" % op.connection], env=os.environ,stdout=subprocess.PIPE)
+@@ -864,10 +865,10 @@
+                 if op.userProfile:
+                     args.append("-env:UserInstallation=file://" + realpath(op.userProfile))
+                 info(2, '%s listener arguments are %s.' % (product.ooName, args))
+-                ooproc = subprocess.Popen(args, env=os.environ)
++                ooproc = subprocess.Popen(args, env=os.environ, stdout=subprocess.PIPE)
                  info(2, '%s listener successfully started. (pid=%s)' % (product.ooName, ooproc.pid))
  
 -                ### Try connection to it for op.timeout seconds (flakky OpenOffice)
@@ -27,7 +23,7 @@ Index: git/unoconv
                  timeout = 0
                  while timeout <= op.timeout:
                      ### Is it already/still running ?
-@@ -793,6 +795,20 @@
+@@ -879,6 +880,20 @@
  
                      elif retcode != None:
                          info(3, "Process %s (pid=%s) exited with %s." % (office.binary, ooproc.pid, retcode))
@@ -48,7 +44,7 @@ Index: git/unoconv
                          break
  
                      try:
-@@ -1138,7 +1154,7 @@
+@@ -1287,7 +1302,7 @@
          if convertor.desktop.getCurrentFrame():
              info(2, 'Trying to stop %s GUI listener.' % product.ooName)
              try:
