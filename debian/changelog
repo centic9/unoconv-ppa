@@ -1,3 +1,9 @@
+unoconv (0.9.0-0ubuntu0~ppa2) jammy; urgency=medium
+
+  * Reupload for Jammy
+
+ -- Dominik Stadler (Ubuntu key) <dominik.stadler@gmx.at>  Sat, 17 Sep 2022 22:28:58 +0200
+
 unoconv (0.9.0-0ubuntu0~ppa1) focal; urgency=medium
 
   * Update to version 0.9.0, Closes #900810
